@@ -11,9 +11,9 @@ import time
 array = []
 projectPath = '/Users/apple/Desktop/test/'
 classArray = ['NSString','UILabel','NSDictionary','NSData','UIScrollView','UIView']
-defaultNewClassCount = 14;
-defautlPropertNum = 5;
-defaultMethodNum = 14;
+defaultNewClassCount = 50;
+defautlPropertNum = 10;
+defaultMethodNum = 50;
 defaultProjectName = "projecttest001";
 
 
@@ -157,15 +157,43 @@ def createFileM(profectPath,projectName,className,nextClass,propryArr,methodArr,
 
 
 
+def makeNoRepeatClassFile(classFileArr,classCount):
+    for k in range(0,classCount):
+        className = random.choice(array)
+        count = len(classFileArr)
+
+        if count == 0:
+            classFileArr.append(className)
+        else:
+            isDuplicate = 0
+            for m in classFileArr:
+                if m == className:
+                    print("已有该类名，不用重复创建")
+                    isDuplicate = 1
+                    break
+
+            if isDuplicate == 0:
+                classFileArr.append(className)
+
+    return  classFileArr;
+
 def startup():
     createNameArr()
     classFileArr = []
     classPropertyArr = []
     classMethodArr = []
 
-    for j in range(0,defaultNewClassCount):
-        className = random.choice(array)
-        classFileArr.append(className)
+    while len(classFileArr) < defaultNewClassCount:
+        n = defaultNewClassCount - len(classFileArr)
+        print("还不符合创建类的个数，继续创建 %s 个类文件" % n)
+        classFileArr = makeNoRepeatClassFile(classFileArr,n)
+
+
+
+
+    for j in range(0,len(classFileArr)):
+        # className = random.choice(array)
+        # classFileArr.append(className)
         propryArray = createPropertArr();
         methodArray = createMethodArr();
 
@@ -191,8 +219,11 @@ def startup():
             nextMethodArr = classMethodArr[i + 1];
             nextMethod = nextMethodArr[0]
 
+            # print('创建类 classanme=%s index = %s' % (className,i) )
+
+
         else:
-            print("没有下一个类了")
+            print("没有下一个类了,当前类index = %s" % i)
 
 
         firstclass = 0;
